@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Formation Journal</title>
+  <meta name="theme-color" content="#f6f1e7" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app light">
+    <header class="topbar">
+      <div>
+        <h1>Daily Formation Journal</h1>
+        <p class="subtle">Planning, priorities, reflection, and trends</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="themeToggle" class="ghost-btn" type="button">Dark mode</button>
+        <button id="installBtn" class="ghost-btn hidden" type="button">Install</button>
+      </div>
+    </header>
+
+    <section id="authCard" class="card auth-card">
+      <h2>Sign in</h2>
+      <p>Use your Google account to sync your journal across devices.</p>
+      <button id="googleSignInBtn" class="primary-btn" type="button">Sign in with Google</button>
+      <details>
+        <summary>Firebase setup needed</summary>
+        <p>Before sign-in will work, paste your Firebase config into <code>app.js</code>, enable Google sign-in in Firebase Authentication, create Firestore, and publish the security rules from the included <code>firestore.rules</code> file.</p>
+      </details>
+    </section>
+
+    <main id="mainApp" class="hidden">
+      <section class="card user-card">
+        <div>
+          <h2 id="welcomeName">Welcome</h2>
+          <p class="subtle" id="syncStatus">Signed in</p>
+        </div>
+        <div class="topbar-actions">
+          <button id="exportBtn" class="ghost-btn" type="button">Export JSON</button>
+          <button id="signOutBtn" class="ghost-btn" type="button">Sign out</button>
+        </div>
+      </section>
+
+      <nav class="tabs" aria-label="App sections">
+        <button class="tab active" data-tab="today">Today</button>
+        <button class="tab" data-tab="plans">Plans</button>
+        <button class="tab" data-tab="insights">Insights</button>
+      </nav>
+
+      <section id="todayTab" class="tab-panel active">
+        <section class="card date-card">
+          <div class="date-row">
+            <div>
+              <h2>Daily entry</h2>
+              <p class="subtle">One page for intention, execution, and examination</p>
+            </div>
+            <input id="entryDate" type="date" />
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>Morning orientation</h3>
+          <label>
+            <span>What is your focus for today?</span>
+            <input id="dailyFocus" type="text" maxlength="120" placeholder="Patience, diligence, attentiveness" />
+          </label>
+          <label>
+            <span>What kind of person do you want to be today?</span>
+            <textarea id="dailyPersonPrompt" rows="2" maxlength="240" placeholder="Calm, disciplined, charitable, attentive"></textarea>
+          </label>
+        </section>
+
+        <section class="card">
+          <div class="section-header-row">
+            <div>
+              <h3>Today's ranked goals</h3>
+              <p class="subtle">Limit 5. Drag is optional later; for now use priority numbers 1–5.</p>
+            </div>
+            <div class="goal-controls">
+              <button id="addGoalBtn" class="ghost-btn" type="button">Add goal</button>
+              <button id="lockGoalsBtn" class="primary-btn" type="button">Lock today’s goals</button>
+            </div>
+          </div>
+          <div id="goalMeta" class="meta-pill-row"></div>
+          <div id="goalsList" class="goals-list"></div>
+          <div id="goalWarnings" class="notice hidden"></div>
+        </section>
+
+        <section class="card">
+          <h3>Today's linked plan</h3>
+          <div id="linkedPlanSummary" class="linked-plan"></div>
+        </section>
+
+        <section class="card">
+          <h3>Evening examination</h3>
+          <label>
+            <span>Where did you act well today?</span>
+            <textarea id="actedWell" rows="3"></textarea>
+          </label>
+          <label>
+            <span>Where did you fall short?</span>
+            <textarea id="fellShort" rows="3"></textarea>
+          </label>
+          <div>
+            <span class="label-heading">What seemed to contribute to that?</span>
+            <div id="factorChips" class="chips"></div>
+          </div>
+          <label>
+            <span>Additional notes on contributing factors</span>
+            <textarea id="factorNotes" rows="2" placeholder="Anything more specific you want to note"></textarea>
+          </label>
+          <label>
+            <span>What will you do differently tomorrow?</span>
+            <textarea id="doDifferently" rows="3"></textarea>
+          </label>
+          <label>
+            <span>Additional notes</span>
+            <textarea id="additionalNotes" rows="3"></textarea>
+          </label>
+        </section>
+      </section>
+
+      <section id="plansTab" class="tab-panel">
+        <section class="card">
+          <h2>Planning</h2>
+          <p class="subtle">These plans feed your daily entry automatically.</p>
+        </section>
+
+        <section class="card">
+          <h3>Weekly exercise plan</h3>
+          <div id="exercisePlanGrid" class="plan-grid"></div>
+        </section>
+
+        <section class="card">
+          <h3>Meal plan</h3>
+          <label>
+            <span>Breakfast template</span>
+            <textarea id="mealBreakfast" rows="2"></textarea>
+          </label>
+          <label>
+            <span>Lunch template</span>
+            <textarea id="mealLunch" rows="2"></textarea>
+          </label>
+          <label>
+            <span>Dinner template</span>
+            <textarea id="mealDinner" rows="2"></textarea>
+          </label>
+          <label>
+            <span>Snacks / food notes</span>
+            <textarea id="mealSnacks" rows="2" placeholder="Example: berries only; no junk food/snacks"></textarea>
+          </label>
+        </section>
+
+        <section class="card">
+          <div class="section-header-row">
+            <div>
+              <h3>Recurring personal goals</h3>
+              <p class="subtle">Use these for longer-horizon goals that should surface regularly.</p>
+            </div>
+            <button id="addRecurringGoalBtn" class="ghost-btn" type="button">Add recurring goal</button>
+          </div>
+          <div id="recurringGoalsList"></div>
+        </section>
+
+        <section class="card">
+          <h3>Longer-term goals</h3>
+          <label>
+            <span>Weekly goals</span>
+            <textarea id="weeklyGoals" rows="3"></textarea>
+          </label>
+          <label>
+            <span>Monthly goals</span>
+            <textarea id="monthlyGoals" rows="3"></textarea>
+          </label>
+          <label>
+            <span>Yearly goals</span>
+            <textarea id="yearlyGoals" rows="3"></textarea>
+          </label>
+        </section>
+      </section>
+
+      <section id="insightsTab" class="tab-panel">
+        <section class="card">
+          <h2>Insights</h2>
+          <p class="subtle">Simple pattern-tracking without turning the app into a performance dashboard.</p>
+        </section>
+        <section class="card">
+          <div id="insightsSummary" class="insights-grid"></div>
+        </section>
+        <section class="card">
+          <h3>Common contributing factors</h3>
+          <div id="factorInsightList" class="stats-list"></div>
+        </section>
+        <section class="card">
+          <h3>Exercise adherence by weekday</h3>
+          <div id="exerciseInsightList" class="stats-list"></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

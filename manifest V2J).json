@@ -1,0 +1,9 @@
+{
+  "name": "Daily Formation Journal",
+  "short_name": "Formation",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f1e7",
+  "theme_color": "#f6f1e7",
+  "icons": []
+}
