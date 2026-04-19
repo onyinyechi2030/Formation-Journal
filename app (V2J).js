@@ -21,12 +21,13 @@ import {
 } from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: 'PASTE_YOUR_FIREBASE_API_KEY',
-  authDomain: 'PASTE_YOUR_AUTH_DOMAIN',
-  projectId: 'PASTE_YOUR_PROJECT_ID',
-  storageBucket: 'PASTE_YOUR_STORAGE_BUCKET',
-  messagingSenderId: 'PASTE_YOUR_MESSAGING_SENDER_ID',
-  appId: 'PASTE_YOUR_APP_ID'
+  apiKey: "AIzaSyBxmdiWs7zpTOOVWtK3fO_uegdrmeFe0jM",
+  authDomain: "formation-journal.firebaseapp.com",
+  projectId: "formation-journal",
+  storageBucket: "formation-journal.firebasestorage.app",
+  messagingSenderId: "743059302414",
+  appId: "1:743059302414:web:ae4d9ac990c30a2583b45f",
+  measurementId: "G-WHC00G16K3"
 };
 
 const appState = {
