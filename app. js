@@ -1,12 +1,11 @@
-:::writing{variant=“standard” id=“appjs1”}
-import { initializeApp } from “https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js”;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
-getAuth,
-GoogleAuthProvider,
-signInWithRedirect,
-getRedirectResult,
-onAuthStateChanged
-} from “https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js”;
+  getAuth,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBxmdiWs7zpTOOVWtK3fO_uegdrmeFe0jM",
@@ -23,44 +22,46 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
-// UI elements
-const signInBtn = document.getElementById(“google-signin-btn”);
-const statusEl = document.getElementById(“auth-status”);
+// Correct button ID from your HTML
+const signInBtn = document.getElementById("googleSignInBtn");
 
-// Sign-in button
+// Optional status element
+const statusEl = document.getElementById("auth-status");
+
+// Sign-in button click
 if (signInBtn) {
-signInBtn.addEventListener(“click”, async () => {
-try {
-if (statusEl) statusEl.textContent = “Signing in…”;
-await signInWithRedirect(auth, provider);
-} catch (err) {
-console.error(“Sign-in error:”, err);
-alert(err.message);
-if (statusEl) statusEl.textContent = err.message;
-}
-});
+  signInBtn.addEventListener("click", async () => {
+    try {
+      if (statusEl) statusEl.textContent = "Signing in...";
+      await signInWithRedirect(auth, provider);
+    } catch (err) {
+      console.error("Sign-in error:", err);
+      alert(err.message || "Sign-in failed");
+      if (statusEl) statusEl.textContent = err.message;
+    }
+  });
 }
 
 // Handle redirect result
 getRedirectResult(auth)
-.then((result) => {
-if (result?.user) {
-if (statusEl) {
-statusEl.textContent = Signed in as ${result.user.email};
-}
-}
-})
-.catch((err) => {
-console.error(“Redirect error:”, err);
-alert(err.message);
-});
+  .then((result) => {
+    if (result?.user) {
+      if (statusEl) {
+        statusEl.textContent = `Signed in as ${result.user.email}`;
+      }
+      console.log("User signed in:", result.user);
+    }
+  })
+  .catch((err) => {
+    console.error("Redirect error:", err);
+    alert(err.message || "Redirect sign-in failed");
+  });
 
 // Track auth state
 onAuthStateChanged(auth, (user) => {
-if (statusEl) {
-statusEl.textContent = user
-? Signed in as ${user.email}
-: “Not signed in”;
-}
+  if (statusEl) {
+    statusEl.textContent = user
+      ? `Signed in as ${user.email}`
+      : "Not signed in";
+  }
 });
-:::
